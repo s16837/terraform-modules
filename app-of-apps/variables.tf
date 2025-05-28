@@ -18,5 +18,5 @@ variable "destination_namespace" {
   default = "argocd"
 }
 variable "argocd_namespace" {
-  default = "platform-dev"
+  default = "argocd"
 }
