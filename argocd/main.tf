@@ -75,3 +75,28 @@ resource "helm_release" "argocd" {
     value = "false"
   }
 }
+
+resource "argocd_project" "pjatk_dev" {
+  metadata {
+    name      = "pjatk-dev"
+    namespace = var.namespace
+  }
+
+  spec {
+    description = "Project for PJATK development apps"
+
+    source_repos = ["*"]
+
+    destinations {
+      namespace = "*"
+      server    = "https://kubernetes.default.svc"
+    }
+
+    cluster_resource_whitelist {
+      group = "*"
+      kind  = "*"
+    }
+  }
+}
+
+
