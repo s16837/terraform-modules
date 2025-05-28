@@ -20,3 +20,7 @@ variable "destination_namespace" {
 variable "argocd_namespace" {
   default = "platform-dev"
 }
+
+variable "project" {
+  default = "default"
+}
