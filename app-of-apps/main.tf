@@ -1,37 +1,39 @@
-
-resource "argocd_repository" "test_deployment" {
-  repo = var.repo_url
-  username = var.repo_username
-  password = var.repo_password
-  insecure = true
-  type = "git"
+provider "argocd" {
+  server_addr = var.argocd_server
+  username    = var.argocd_username
+  password    = var.argocd_password
+  insecure    = true
 }
 
-resource "argocd_application" "applications" {
+resource "argocd_repository" "repo" {
+  repo     = var.repo_url
+  type     = "git"
+  insecure = true
+}
+
+resource "argocd_application" "apps" {
   metadata {
     name      = "applications"
-    namespace = var.argocd_namespace
+    namespace = "argocd"
   }
 
   spec {
     project = "default"
-
     source {
       repo_url        = var.repo_url
-      target_revision = var.revision
-      path            = var.app_path
+      path            = "apps"
+      target_revision = "HEAD"
     }
-
     destination {
-      server    = var.destination_server
-      namespace = var.destination_namespace
+      server    = "https://kubernetes.default.svc"
+      namespace = "argocd"
     }
-
     sync_policy {
       automated {
-        self_heal = true
         prune     = true
+        self_heal = true
       }
     }
   }
 }
+
