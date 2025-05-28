@@ -14,7 +14,7 @@ resource "argocd_application" "applications" {
   }
 
   spec {
-    project = "pjatk-dev"
+    project = "default"
 
     source {
       repo_url        = var.repo_url
